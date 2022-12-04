@@ -17,6 +17,8 @@ public class ApiHelper
         ApiClient = new HttpClient();
         ApiClient.DefaultRequestHeaders.Accept.Clear();
         ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //ApiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("apikey", "CBJa0LZQ6xa4eUOA691MxSrpajfJwGbD");
+        //ApiClient.DefaultRequestHeaders.Add("apikey", "CBJa0LZQ6xa4eUOA691MxSrpajfJwGbD");
         //ApiClient.DefaultRequestHeaders.Add("apikey", "CBJa0LZQ6xa4eUOA691MxSrpajfJwGbD");
         //
         //var header = new AuthenticationHeaderValue("apikey", key);

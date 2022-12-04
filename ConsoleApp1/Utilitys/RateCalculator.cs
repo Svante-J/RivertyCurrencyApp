@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CurrencyFetcher.Utilitys;
 
-public class MyCalculator
+public static class RateCalculator
 {
-    public decimal ExchangeCurencies(decimal rate, decimal amount) => amount * rate;
+    public static decimal ExchangeCurencies(decimal rate, decimal amount) => amount * rate;
 
 }
 
