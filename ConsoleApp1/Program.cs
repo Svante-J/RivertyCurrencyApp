@@ -1,0 +1,4 @@
+﻿
+using CurrencyFetcher;
+
+RunLogic.Run();
