@@ -17,7 +17,7 @@ public class RunLogic
 
     public static void Run()
     {
-
+        ApiHelper.InitializeClient();
         var apiResponse = SymbolsProcessor.LoadAvalibleCurrencies();
         var avalibleCurrencyCodes = apiResponse.Result.symbols;
         foreach (var code in avalibleCurrencyCodes!)

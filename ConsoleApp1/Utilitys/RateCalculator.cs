@@ -9,6 +9,5 @@ namespace CurrencyFetcher.Utilitys;
 public static class RateCalculator
 {
     public static decimal ExchangeCurencies(decimal rate, decimal amount) => amount * rate;
-
 }
 
