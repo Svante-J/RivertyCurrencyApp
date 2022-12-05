@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "CurrencyFetcher": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "domain": "api.apilayer.com",
+        "apikey": "CBJa0LZQ6xa4eUOA691MxSrpajfJwGbD"
+      }
+    }
+  }
+}
