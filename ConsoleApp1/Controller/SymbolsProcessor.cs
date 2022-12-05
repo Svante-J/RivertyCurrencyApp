@@ -6,10 +6,10 @@ namespace CurrencyFetcher.Controller;
 
 public class SymbolsProcessor
 {
-    public static async Task<Symbols> LoadAvalible()
+    public static async Task<Symbols> LoadAvalibleCurrencies()
     {
         string url = "https://api.apilayer.com/fixer/symbols";
-        //ApiHelper.ApiClient.DefaultRequestHeaders.Add("apikey", "CBJa0LZQ6xa4eUOA691MxSrpajfJwGbD");
+        ApiHelper.ApiClient.DefaultRequestHeaders.Add("apikey", "CBJa0LZQ6xa4eUOA691MxSrpajfJwGbD");
 
         using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(url))
         {

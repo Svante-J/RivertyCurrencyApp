@@ -11,56 +11,87 @@ namespace CurrencyFetcher;
 
 public class RunLogic
 {
-    
-    private static string? currencyCodeInput;
+    private static string? baseCurrency;
+    private static decimal amount;
+    private static string? targetCurrency;
 
     public static void Run()
     {
-        var result = RateProcessor.GetRate("USD", "EUR");
 
-        var rate = result.Result.rates!.FirstOrDefault().Value;
-
-        var calculatedValue = RateCalculator.ExchangeCurencies(rate, 100);
-
-
-        var avalibleCurrencyCodes = SymbolsProcessor.LoadAvalible();
-
-        var thecodes = avalibleCurrencyCodes.Result.symbols;
-        foreach (var code in thecodes!)
+        var apiResponse = SymbolsProcessor.LoadAvalibleCurrencies();
+        var avalibleCurrencyCodes = apiResponse.Result.symbols;
+        foreach (var code in avalibleCurrencyCodes!)
         {
             Console.Write(" " + code.Key);
         }
 
-        SetBaseCurrency(thecodes);
+        SetBaseCurrency(avalibleCurrencyCodes);
+        SetAmount();
+        SetTagetCurrency(avalibleCurrencyCodes);
 
-        Console.WriteLine("\ninput ammount");
-        var ammountInput = Console.ReadLine();
-        Console.WriteLine("input currency to exchange");
-        var secoundCurrency = "USD";
-
-
-
+        var result = RateProcessor.GetRate(baseCurrency!, targetCurrency!);
+        var rate = result.Result.rates!.FirstOrDefault().Value;
+        var calculatedValue = RateCalculator.ExchangeCurencies(rate, amount);
+        Console.WriteLine(baseCurrency + " amount " + amount +
+            " rate " + rate + " convert to " + targetCurrency + " = " + calculatedValue);
     }
 
-    private static string SetBaseCurrency(Dictionary<string, string>? thecodes)
+    private static void SetTagetCurrency(Dictionary<string, string>? symbols)
     {
         do
         {
 
-            Console.WriteLine("\nInput currency code ");
-            currencyCodeInput = Console.ReadLine().ToUpper();
-            if (thecodes!.ContainsKey(currencyCodeInput))
+            Console.WriteLine("input target currency for exchange");
+            targetCurrency = Console.ReadLine()!.ToUpper();
+            if (symbols!.ContainsKey(targetCurrency))
             {
-                Console.WriteLine(thecodes.First(x => x.Key == currencyCodeInput).Value + "Selected");
+                symbols.TryGetValue(targetCurrency, out var currency);
+                Console.WriteLine(currency + " selected");
             }
             else
             {
                 Console.WriteLine("not a avalible curency");
             }
+        } while (!symbols!.ContainsKey(baseCurrency));
+    }
 
-        } while (!thecodes!.ContainsKey(currencyCodeInput));
+    private static void SetAmount()
+    {
+        Console.WriteLine("\ninput ammount to exchange");
+        var succes = false;
+        do
+        {
+            if (Decimal.TryParse(Console.ReadLine(), out amount) && amount >= 0)
+            {
+                Console.WriteLine("amount is set to " + amount);
+                succes = true;
+            }
+            else
+            {
+                Console.WriteLine("not a valid amount. PLease try again");
+            }
+        } while (!succes);
 
-        // return thecodes.TryGetValue(currencyCodeInput, value); ToDo denna ovan
-        return "";
+    }
+
+    private static void SetBaseCurrency(Dictionary<string, string>? symbols)
+    {
+        do
+        {
+
+            Console.WriteLine("\nInput currency code ");
+            baseCurrency = Console.ReadLine()!.ToUpper();
+            if (symbols!.ContainsKey(baseCurrency))
+            {
+                Console.WriteLine(symbols.First(x => x.Key == baseCurrency).Value + " selected");
+            }
+
+            else
+            {
+                Console.WriteLine("not a avalible curency");
+            }
+
+        } while (!symbols!.ContainsKey(baseCurrency));
+
     }
 }
